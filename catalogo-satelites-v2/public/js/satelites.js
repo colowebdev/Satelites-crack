@@ -20,6 +20,10 @@ const modoEdicion = document.getElementById('modo-edicion');
 const buscador = document.getElementById('buscador');
 const filtroEstado = document.getElementById('filtroEstado');
 
+const nombreHeader = document.getElementById('nombre-header');
+const btnLogout = document.getElementById('btn-logout');
+const enlaceLogout = document.getElementById('enlace-logout');
+
 let satelites = [];
 let saliteEditandoId = null;
 
@@ -32,6 +36,7 @@ async function iniciarPagina() {
   if (!sesionValida) return;
 
   configurarEventos();
+  await cargarUsuarioLogueado();
   await cargarSatelites();
 }
 
@@ -107,6 +112,33 @@ function configurarEventos() {
   btnCancelar.addEventListener('click', reiniciarFormulario);
   buscador.addEventListener('input', renderizarSatelites);
   filtroEstado.addEventListener('change', renderizarSatelites);
+
+  btnLogout.addEventListener('click', cerrarSesion);
+  enlaceLogout.addEventListener('click', (evento) => {
+    evento.preventDefault();
+    cerrarSesion();
+  });
+}
+
+
+function cerrarSesion() {
+  localStorage.removeItem('token');
+  window.location.replace('login.html');
+}
+
+
+async function cargarUsuarioLogueado() {
+  try {
+    const respuesta = await fetch('/api/usuario-logueado', {
+      method: 'GET',
+      headers: obtenerHeaders()
+    });
+
+    const usuario = await procesarRespuesta(respuesta);
+    nombreHeader.textContent = usuario.nombre || 'Usuario';
+  } catch (error) {
+    console.error('Error cargando el usuario:', error);
+  }
 }
 
 
