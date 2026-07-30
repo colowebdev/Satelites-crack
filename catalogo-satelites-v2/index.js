@@ -22,7 +22,7 @@ iniciarServidor();
 
 // Secreto para firmar los tokens. BUG ARREGLADO: en el original estaba
 // escrito directo en el código ('SECRETO_SUPER_SEGUR0'); ahora sale del .env
-const JWT_SECRET = process.env.JWT_SECRET || 'secreto_de_desarrollo_cambiame';
+const SECRETO = process.env.SECRETO || 'secreto_de_desarrollo_cambiame';
 
 
 // =====================================================
@@ -46,7 +46,7 @@ function verificarToken(req, res, next) {
   const token = partes[1];
 
   try {
-    const datosDecodificados = jwt.verify(token, JWT_SECRET);
+    const datosDecodificados = jwt.verify(token, SECRETO);
     req.usuarioId = datosDecodificados.id; // igual que en el proyecto de referencia
     next();
   } catch (error) {
@@ -80,7 +80,7 @@ app.post('/api/registro', async (req, res) => {
     const nuevoUsuario = new Usuario({ nombre, correo, clave: claveCifrada });
     const usuarioGuardado = await nuevoUsuario.save();
 
-    const token = jwt.sign({ id: usuarioGuardado._id }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: usuarioGuardado._id }, SECRETO, { expiresIn: '1h' });
 
     res.status(201).json({ token });
   } catch (error) {
@@ -105,7 +105,7 @@ app.post('/api/login', async (req, res) => {
       return res.status(401).json({ error: 'Credenciales inválidas' });
     }
 
-    const token = jwt.sign({ id: usuario._id }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: usuario._id }, SECRETO, { expiresIn: '1h' });
 
     res.json({ token });
   } catch (error) {
