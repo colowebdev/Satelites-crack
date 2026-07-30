@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi catálogo - Satélites</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 25px;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 35px;
+      color: white;
+      background-color: #1f2937;
+    }
+
+    header h1 { margin: 0; font-size: 25px; }
+
+    .usuario-header { display: flex; align-items: center; gap: 15px; }
+    .usuario-header span { font-weight: bold; }
+
+    .btn-logout {
+      padding: 9px 16px;
+      color: white;
+      background-color: #dc3545;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-logout:hover { background-color: #b02a37; }
+    h1 { text-align: center; }
+
+    .contenedor-principal { max-width: 1100px; margin: auto; }
+
+    .panel {
+      padding: 20px;
+      margin-bottom: 25px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    p#modo-edicion {
+      text-align: center;
+      font-weight: bold;
+      color: #0d6efd;
+    }
+
+    .campos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+
+    input, select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    .controles {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #btn-guardar { color: white; background-color: #198754; }
+    #btn-limpiar { background-color: #ffc107; }
+    #btn-cancelar { color: white; background-color: #6c757d; }
+    .btn-editar { color: white; background-color: #0d6efd; }
+    .btn-eliminar { color: white; background-color: #dc3545; }
+
+    .oculto { display: none; }
+
+    #mensaje {
+      min-height: 24px;
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .mensaje-correcto { color: #198754; }
+    .mensaje-error { color: #dc3545; }
+
+    .filtros {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .filtros input, .filtros select { width: auto; min-width: 200px; }
+
+    .tabla-contenedor { overflow-x: auto; }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    th, td { padding: 10px; text-align: center; border-bottom: 1px solid #ddd; }
+    th { color: white; background-color: #333; }
+
+    .acciones { display: flex; justify-content: center; gap: 5px; }
+
+    #sin-satelites { padding: 20px; color: #666; text-align: center; }
+  </style>
+</head>
+
+<body>
+<header>
+    <h1>Catálogo de Satélites</h1>
+    <div class="usuario-header">
+      <span id="nombre-header">Cargando usuario...</span>
+      <button type="button" id="btn-logout" class="btn-logout">Cerrar sesión</button>
+    </div>
+  </header>
+  <main class="contenedor-principal">
+
+    <section class="panel">
+      <h1>Registrar satélite</h1>
+      <p id="modo-edicion" class="oculto">Está editando un satélite guardado.</p>
+
+      <div class="campos">
+        <div>
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre">
+        </div>
+        <div>
+          <label for="pais">País</label>
+          <input type="text" id="pais">
+        </div>
+        <div>
+          <label for="agencia">Agencia</label>
+          <input type="text" id="agencia">
+        </div>
+        <div>
+          <label for="fechaLanzamiento">Fecha de lanzamiento</label>
+          <input type="date" id="fechaLanzamiento">
+        </div>
+        <div>
+          <label for="tipoOrbita">Tipo de órbita</label>
+          <input type="text" id="tipoOrbita" placeholder="LEO, MEO, GEO, Polar...">
+        </div>
+        <div>
+          <label for="objetivo">Objetivo</label>
+          <input type="text" id="objetivo" placeholder="Comunicaciones, científico...">
+        </div>
+        <div>
+          <label for="masaKg">Masa (kg)</label>
+          <input type="number" id="masaKg">
+        </div>
+        <div>
+          <label for="estado">Estado</label>
+          <select id="estado">
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+            <option value="Reentrada">Reentrada</option>
+            <option value="Desconocido">Desconocido</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="controles">
+        <button type="button" id="btn-guardar">Guardar satélite</button>
+        <button type="button" id="btn-limpiar">Limpiar formulario</button>
+        <button type="button" id="btn-cancelar" class="oculto">Cancelar edición</button>
+      </div>
+
+      <div id="mensaje"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Mi catálogo</h2>
+
+      <div class="filtros">
+        <input type="text" id="buscador" placeholder="Buscar por nombre...">
+        <select id="filtroEstado">
+          <option value="">Todos los estados</option>
+          <option value="Activo">Activo</option>
+          <option value="Inactivo">Inactivo</option>
+          <option value="Reentrada">Reentrada</option>
+          <option value="Desconocido">Desconocido</option>
+        </select>
+      </div>
+
+      <div class="tabla-contenedor">
+        <table id="tabla-satelites">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>País</th>
+              <th>Agencia</th>
+              <th>Órbita</th>
+              <th>Objetivo</th>
+              <th>Masa (kg)</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="lista-satelites"></tbody>
+        </table>
+
+        <p id="sin-satelites" class="oculto">No tiene satélites registrados.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/satelites.js"></script>
+
+</body>
+
+</html>

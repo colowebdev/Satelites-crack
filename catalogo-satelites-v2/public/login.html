@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ingreso - Catálogo de Satélites</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      color: #222;
+    }
+
+    .tarjeta {
+      max-width: 380px;
+      margin: 40px auto;
+      padding: 28px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #1f2937;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 6px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 9px 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    input[type="button"] {
+      margin-top: 20px;
+      padding: 11px;
+      color: white;
+      background-color: #2563eb;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    input[type="button"]:hover {
+      background-color: #1d4ed8;
+    }
+
+    #mensaje {
+      min-height: 20px;
+      margin-top: 14px;
+      text-align: center;
+      font-weight: bold;
+      color: #dc3545;
+    }
+
+    p {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="tarjeta">
+    <h1>Ingreso al sistema</h1>
+
+    <label for="correo">Correo</label>
+    <input type="text" id="correo">
+
+    <label for="clave">Contraseña</label>
+    <input type="password" id="clave">
+
+    <input type="button" id="btn-guardar" value="Ingresar">
+
+    <div id="mensaje"></div>
+
+    <p><a href="registro.html">No tengo cuenta, registrarme</a></p>
+  </div>
+
+  <script>
+    const btnGuardar = document.getElementById('btn-guardar');
+    const mensaje = document.getElementById('mensaje');
+
+    btnGuardar.addEventListener('click', async () => {
+      const usuario = {
+        correo: document.getElementById('correo').value,
+        clave: document.getElementById('clave').value
+      };
+
+      const resp = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(usuario)
+      });
+
+      const data = await resp.json();
+
+      if (data.error != undefined) {
+        mensaje.textContent = data.error;
+      } else {
+        localStorage.setItem('token', data.token);
+        location.href = 'index.html';
+      }
+    });
+  </script>
+
+</body>
+
+</html>

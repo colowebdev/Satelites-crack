@@ -1,0 +1,19 @@
+{
+  "name": "catalogo-satelites",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Fallix",
+  "license": "ISC",
+  "description": "Catalogo educativo de satelites artificiales - Proyecto 9",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.7.0"
+  }
+}

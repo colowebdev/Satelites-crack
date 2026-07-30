@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - Catálogo de Satélites</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      color: #222;
+    }
+
+    .tarjeta {
+      max-width: 380px;
+      margin: 40px auto;
+      padding: 28px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #1f2937;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 6px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 9px 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    input[type="button"] {
+      margin-top: 20px;
+      padding: 11px;
+      color: white;
+      background-color: #2563eb;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    input[type="button"]:hover {
+      background-color: #1d4ed8;
+    }
+
+    #mensaje {
+      min-height: 20px;
+      margin-top: 14px;
+      text-align: center;
+      font-weight: bold;
+      color: #dc3545;
+    }
+
+    p {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="tarjeta">
+    <h1>Crear cuenta</h1>
+
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre">
+
+    <label for="correo">Correo</label>
+    <input type="text" id="correo">
+
+    <label for="clave">Contraseña</label>
+    <input type="password" id="clave">
+
+    <label for="confirmarClave">Confirmar contraseña</label>
+    <input type="password" id="confirmarClave">
+
+    <input type="button" id="btn-registrar" value="Registrarme">
+
+    <div id="mensaje"></div>
+
+    <p><a href="login.html">Ya tengo cuenta, iniciar sesión</a></p>
+  </div>
+
+  <script>
+    const btnRegistrar = document.getElementById('btn-registrar');
+    const mensaje = document.getElementById('mensaje');
+
+    btnRegistrar.addEventListener('click', async () => {
+      const nombre = document.getElementById('nombre').value;
+      const correo = document.getElementById('correo').value;
+      const clave = document.getElementById('clave').value;
+      const confirmarClave = document.getElementById('confirmarClave').value;
+
+      if (!nombre || !correo || !clave) {
+        mensaje.textContent = 'Todos los campos son obligatorios';
+        return;
+      }
+
+      if (clave !== confirmarClave) {
+        mensaje.textContent = 'Las contraseñas no coinciden';
+        return;
+      }
+
+      const respuesta = await fetch('/api/registro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, correo, clave })
+      });
+
+      const data = await respuesta.json();
+
+      if (data.error != undefined) {
+        mensaje.textContent = data.error;
+      } else {
+        localStorage.setItem('token', data.token);
+        location.href = 'index.html';
+      }
+    });
+  </script>
+
+</body>
+
+</html>

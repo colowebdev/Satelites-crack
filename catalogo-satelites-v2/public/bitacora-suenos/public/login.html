@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión - Bitacora de Suenos</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <div class="contenedor-centrado">
+    <div class="tarjeta-auth">
+      <h1 class="marca">bitácora <span>de sueños</span></h1>
+      <p class="subtitulo">La vida era más corta</p>
+
+      <form id="formLogin">
+        <div class="campo">
+          <label for="correo">Correo</label>
+          <input type="email" id="correo" required>
+        </div>
+        <div class="campo">
+          <label for="clave">Contraseña</label>
+          <input type="password" id="clave" required>
+        </div>
+        <button type="submit" class="boton">Iniciar sesión</button>
+        <p class="mensaje" id="mensaje"></p>
+      </form>
+
+      <p class="enlace-alterno">¿No tienes cuenta? <a href="registro.html">Regístrate</a></p>
+    </div>
+  </div>
+
+  <script src="js/login.js"></script>
+</body>
+</html>
