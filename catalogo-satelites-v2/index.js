@@ -233,6 +233,13 @@ app.delete('/api/satelites/:id', verificarToken, async (req, res) => {
 
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor API escuchando en http://localhost:${PORT}`);
-});
+
+// Solo levantamos el servidor con app.listen() si corremos localmente.
+// En Vercel, el archivo se exporta y Vercel lo invoca como función serverless.
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Servidor API escuchando en http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
