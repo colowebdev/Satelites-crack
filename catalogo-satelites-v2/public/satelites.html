@@ -39,6 +39,32 @@ header {
       font-weight: bold;
     }
     .btn-logout:hover { background-color: #b02a37; }
+
+    nav {
+      padding: 12px 35px;
+      background-color: white;
+      box-shadow: 0 2px 7px rgba(0, 0, 0, 0.12);
+    }
+
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 10px 18px;
+      color: #1f2937;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    nav a:hover { color: white; background-color: #2563eb; }
+
     h1 { text-align: center; }
 
     .contenedor-principal { max-width: 1100px; margin: auto; }
@@ -136,6 +162,15 @@ header {
       <button type="button" id="btn-logout" class="btn-logout">Cerrar sesión</button>
     </div>
   </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="satelites.html">Mi catálogo de satélites</a></li>
+      <li><a href="#" id="enlace-logout">Cerrar sesión</a></li>
+    </ul>
+  </nav>
+
   <main class="contenedor-principal">
 
     <section class="panel">
